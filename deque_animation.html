@@ -91,6 +91,8 @@
       <button class="btn btn-success" onclick="addFront()">Add Front</button>
       <button class="btn btn-warning" onclick="removeFront()">Remove Front</button>
       <button class="btn btn-danger" onclick="removeRear()">Remove Rear</button>
+
+      <!-- สมาชิกมี 5 คน = 5 Function เพิ่ม ฟังก์ชั่น setEmpty-->
       <button class="btn btn-secondary" onclick="setEmpty()">Set Empty</button>
     </div>
     <div class="nameplate">
@@ -172,8 +174,11 @@
       if (!first) return;
       first.style.opacity = 0;
       first.addEventListener('transitionend', () => {
+
+        //เช็คว่า deque มี first อยู่ไหม ถ้ามีก็ลบออก ***แก้ console log ฟ้อง error เพราะเห็นแล้วหงุดหงิดครับ 55555
         if (deque.contains(first)) {
           deque.removeChild(first);
+          //เมื่อ deque ไม่มี children แล้วให้เซ็ต counter เป็น 1 เพื่อรีเซ็ตเลขที่จะรันต่อไป
           if (deque.children.length === 0) {
             counter = 1;
           }
@@ -186,17 +191,27 @@
       if (!last) return;
       last.style.opacity = 0;
       last.addEventListener('transitionend', () => {
+
+        //เช็คว่า deque มี last อยู่ไหม ถ้ามีก็ลบออก ***เหมือนกับข้อบนเลยครับ
         if (deque.contains(last)) {
           deque.removeChild(last);
+
+          //เมื่อ deque ไม่มี children แล้วให้เซ็ต counter เป็น 1 เพื่อรีเซ็ตเลขที่จะรันต่อไป
           if (deque.children.length === 0) {
             counter = 1;
           }
         }
       }, { once: true });
     }
+
+    // การทำงานของ ฟังก์ชั่นนี้คือ ลูปจะทำงานก็ต่อเมื่อ deque ยังมี element อยู่โดยเช็คจาก firstChild
     function setEmpty() {
       while (deque.firstChild) {
+
+        //ลบ children ออกจาก deque จนกว่าลูปจะเป็นเท็จ
         deque.removeChild(deque.firstChild);
+
+        //เมื่อ deque ไม่มี children แล้วให้เซ็ต counter เป็น 1 เพื่อรีเซ็ตเลขที่จะรันต่อไป
         if (deque.children.length === 0) {
           counter = 1;
         }
