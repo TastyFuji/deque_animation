@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated Deque Visualization</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #a3d1ff;
+    }
+
+    #deque {
+      display: flex;
+      padding: 10px;
+      min-width: 400px;
+      min-height: 60px;
+      background-color: #bcdeff;
+      border: 2px dashed #6d6c6c;
+      border-radius: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .node {
+      width: 60px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      margin: 5px;
+      background: #696969;
+      color: rgb(0, 0, 0);
+      border-radius: 0.5rem;
+      font-weight: bold;
+      transition: opacity 0.5s ease;
+    }
+
+    .btn {
+      box-shadow: 6px 6px 14px 0px rgba(0, 0, 0, 0.38);
+      -webkit-box-shadow: 6px 6px 14px 0px rgba(0, 0, 0, 0.38);
+      -moz-box-shadow: 6px 6px 14px 0px rgba(0, 0, 0, 0.38);
+    }
+
+    .text-custom {
+      text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.21);
+    }
+
+    .nameplate {
+      border: 2px dashed #6d6c6c;
+      border-radius: 10px;
+      background-color: #bcdeff;
+      margin-top: 30px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .header-color {
+      background-color: #499bf8;
+      font-weight: bold;
+    }
+
+    .custom-bg {
+      background-color: #eff1f1;
+    }
+  </style>
+</head>
+<!-- <i class="fa-regular fa-circle-user"></i> -->
+
+<body>
+
+  <div class="container text-center py-5">
+    <h2 class="mb-4 text-custom">Deque Animation</h2>
+
+    <div id="deque" class="mx-auto"></div>
+
+    <div id="controls" class="mt-4 d-flex justify-content-center flex-wrap gap-2">
+      <button class="btn btn-primary" onclick="addRear()">Add Rear</button>
+      <button class="btn btn-success" onclick="addFront()">Add Front</button>
+      <button class="btn btn-warning" onclick="removeFront()">Remove Front</button>
+      <button class="btn btn-danger" onclick="removeRear()">Remove Rear</button>
+      <button class="btn btn-secondary" onclick="setEmpty()">Set Empty</button>
+    </div>
+    <div class="nameplate">
+      <ul class="list-group">
+        <li class="list-group-item header-color" aria-current="true"></i><i class="fa-regular fa-circle-user"></i>
+          รายชื่อสมาชิก</li>
+        <table class="table-light">
+          <thead>
+            <tr>
+              <th class="text-center" scope="col">รหัสนักศึกษา</th>
+              <th class="text-center" scope="col">ชื่อ</th>
+              <th class="text-center" scope="col">นามสกุล</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center" scope="row">6652101068</td>
+              <td class="text-center">นางสาว ธัญยธรณ์</td>
+              <td class="text-center">สังวรโยธิน</td>
+            </tr>
+            <tr>
+              <td class="text-center" scope="row">6652100576</td>
+              <td class="text-center">นาย วีรศักดิ์</td>
+              <td class="text-center">เสงี่ยมจิตต์</td>
+            </tr>
+            <tr>
+              <td class="text-center" scope="row">6652100878</td>
+              <td class="text-center">นาย ธนรักษ์</td>
+              <td class="text-center">ปันนา</td>
+            </tr>
+            <tr>
+              <td class="text-center" scope="row">6652100410</td>
+              <td class="text-center">นางสาว สุมิตรา</td>
+              <td class="text-center">เกตุหอม</td>
+            </tr>
+            <tr>
+              <td class="text-center" scope="row">6652101190</td>
+              <td class="text-center">นาย สันติสุข</td>
+              <td class="text-center">แดงวงษ์</td>
+            </tr>
+          </tbody>
+        </table>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    let counter = 1;
+    const deque = document.getElementById('deque');
+
+    function createNode(content) {
+      const node = document.createElement('div');
+      node.className = 'node';
+      node.textContent = content;
+      node.style.opacity = 0;
+      node.style.backgroundColor = getRandomColor();
+      return node;
+    }
+
+    function getRandomColor() {
+      const colors = ['#f033ff', '#8333ff', '#33c7ff', '#33ff7d', '#fff333', '#ff7a33', '#b233ff', '#58ff33', '#ff3333'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function addRear() {
+      const node = createNode(counter++);
+      deque.appendChild(node);
+      requestAnimationFrame(() => node.style.opacity = 1);
+    }
+
+    function addFront() {
+      const node = createNode(counter++);
+      deque.insertBefore(node, deque.firstChild);
+      requestAnimationFrame(() => node.style.opacity = 1);
+    }
+
+    function removeFront() {
+      const first = deque.firstChild;
+      if (!first) return;
+      first.style.opacity = 0;
+      first.addEventListener('transitionend', () => {
+        if (deque.contains(first)) {
+          deque.removeChild(first);
+          if (deque.children.length === 0) {
+            counter = 1;
+          }
+        }
+      }, { once: true });
+    }
+
+    function removeRear() {
+      const last = deque.lastChild;
+      if (!last) return;
+      last.style.opacity = 0;
+      last.addEventListener('transitionend', () => {
+        if (deque.contains(last)) {
+          deque.removeChild(last);
+          if (deque.children.length === 0) {
+            counter = 1;
+          }
+        }
+      }, { once: true });
+    }
+    function setEmpty() {
+      while (deque.firstChild) {
+        deque.removeChild(deque.firstChild);
+        if (deque.children.length === 0) {
+          counter = 1;
+        }
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>
